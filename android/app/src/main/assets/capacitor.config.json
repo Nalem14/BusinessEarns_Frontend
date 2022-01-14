@@ -1,0 +1,6 @@
+{
+	"appId": "fr.bucaillethommy.businessEarns",
+	"appName": "business-earns-vue",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
