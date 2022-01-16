@@ -1,3 +1,5 @@
+import { Storage } from '@capacitor/storage';
+
 const User = {
   namespaced: true,
 
@@ -11,9 +13,15 @@ const User = {
       state._data = payload;
     },
     setToken(state, payload) {
-      if (payload === null) localStorage.removeItem("AUTH_TOKEN");
-      else localStorage.setItem("AUTH_TOKEN", payload);
-
+      if (payload === null) {
+        Storage.remove({ key: "AUTH_TOKEN" })
+      }else{
+        Storage.set({
+          key: "AUTH_TOKEN",
+          value: payload
+        })
+      }
+      
       state._token = payload;
     },
     setSearchList(state, payload) {
@@ -62,9 +70,6 @@ const User = {
       return new Promise((resolve, reject) => {
         // Save user token
         commit("setToken", token);
-
-        // Init socket IO
-        SocketioService.setupSocketConnection(token);
 
         // Set token on axios
         dispatch("axios/setAuthToken", token, { root: true }).then(() => {
@@ -123,10 +128,10 @@ const User = {
       return getters.isAuthenticated && state._data.isAdmin === true;
     },
     // Check has token saved in local storage or in state
-    hasToken(state) {
+    async hasToken(state) {
       if (!state._token) {
-        const savedToken = localStorage.getItem("AUTH_TOKEN");
-        if (savedToken) state._token = savedToken;
+        const savedToken = await Storage.get({ key: "AUTH_TOKEN" });
+        if (savedToken.value) state._token = savedToken.value;
       }
 
       return state._token !== null;

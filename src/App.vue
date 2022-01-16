@@ -4,23 +4,20 @@
     <main>
 
       <!-- <section> page content -->
-      <router-view></router-view>
+      <!-- use a dynamic transition name -->
+      <router-view v-slot="{ Component, route }">
+        <transition :name="route.meta.transitionName">
+          <component :is="Component" :key="route.path"/>
+        </transition>
+      </router-view>
     </main>
     <Footer />
   </div>
 </template>
 
-<script>
+<script setup>
 import Header from "./views/partials/Header.vue";
 import Footer from "./views/partials/Footer.vue";
-
-export default {
-  name: "App",
-  components: {
-    Header,
-    Footer
-  },
-};
 </script>
 
 <style lang="scss">
