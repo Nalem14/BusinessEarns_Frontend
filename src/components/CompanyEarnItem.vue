@@ -15,7 +15,6 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { ref } from 'vue';
 import { formatDateTime } from '../mixins/Helper.mixin';
-import { Dialog } from '@capacitor/dialog';
 
 const earns = ref([]);
 const props = defineProps({
