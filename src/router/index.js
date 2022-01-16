@@ -12,8 +12,20 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    meta: { requiresAuth: false, title: "Tableau de bord" },
+    meta: { requiresAuth: true, title: "Tableau de bord", description: "Un résumé de votre activitée" },
     component: () => import("../views/Home.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    meta: { requiresAuth: false, title: "Connexion", description: "Accéder à l'application" },
+    component: () => import("../views/Login.vue"),
+  },
+  {
+    path: "/register",
+    name: "Register",
+    meta: { requiresAuth: false, title: "Créer un compte", description: "Rejoignez-nous, c'est simple et rapide !" },
+    component: () => import("../views/Register.vue"),
   },
 ];
 

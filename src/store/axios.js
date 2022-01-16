@@ -11,7 +11,7 @@ const Axios = {
       if (state.instance !== null) return state.instance;
 
       const instance = AXIOS.create({
-        baseURL: process.env.VUE_APP_BASE_API_URI,
+        baseURL: import.meta.env.VITE_APP_BASE_API_URI,
         timeout: 5000,
       });
 

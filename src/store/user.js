@@ -1,11 +1,11 @@
-import { Storage } from '@capacitor/storage';
+import { Storage } from "@capacitor/storage";
 
 const User = {
   namespaced: true,
 
   state: () => ({
     _data: null,
-    _token: null
+    _token: null,
   }),
 
   mutations: {
@@ -14,14 +14,14 @@ const User = {
     },
     setToken(state, payload) {
       if (payload === null) {
-        Storage.remove({ key: "AUTH_TOKEN" })
-      }else{
+        Storage.remove({ key: "AUTH_TOKEN" });
+      } else {
         Storage.set({
           key: "AUTH_TOKEN",
-          value: payload
-        })
+          value: payload,
+        });
       }
-      
+
       state._token = payload;
     },
     setSearchList(state, payload) {
@@ -33,31 +33,25 @@ const User = {
     // Create account
     async create({ rootGetters }, data) {
       try {
-        return rootGetters["axios/axios"].post("/auth/signup", data);
+        return rootGetters["axios/axios"].post("/users", data);
       } catch (error) {
         console.error(error);
       }
     },
     // Login request to account
     async login({ rootGetters, dispatch }, data) {
-      try {
-        // Send login request to API with email and password in data object
-        return rootGetters["axios/axios"]
-          .post("/auth/login", data)
-          .then((response) => {
-            // Authenticate with token received
-            dispatch("authenticate", response.data.data.token);
-          });
-      } catch (error) {
-        console.error(error);
-      }
+      // Send login request to API with email and password in data object
+      return rootGetters["axios/axios"]
+        .post("/users/auth/login/", data)
+        .then((response) => {
+          console.log(response)
+          // Authenticate with token received
+          dispatch("authenticate", response.data.access_token);
+        });
     },
     // Disconnect a user
     async logout({ commit }) {
       return new Promise((resolve) => {
-        // Disconnect socketIO
-        SocketioService.disconnect();
-
         // Empty user data and token
         commit("setData", null);
         commit("setToken", null);
@@ -66,10 +60,13 @@ const User = {
     },
 
     // Authenticate user with token
-    async authenticate({ commit, dispatch }, token) {
+    async authenticate({ rootGetters, commit, dispatch }, token) {
       return new Promise((resolve, reject) => {
         // Save user token
         commit("setToken", token);
+
+        // Init axios instance
+        rootGetters["axios/axios"];
 
         // Set token on axios
         dispatch("axios/setAuthToken", token, { root: true }).then(() => {
@@ -77,7 +74,7 @@ const User = {
           dispatch("fetchData")
             .then((response) => {
               // Save user data
-              commit("setData", response.data.data.user);
+              commit("setData", response.data);
               resolve();
             })
             .catch((error) => {
@@ -91,7 +88,7 @@ const User = {
     async fetchData({ rootGetters }) {
       try {
         // Get user data on API
-        return rootGetters["axios/axios"].get("/auth/read");
+        return rootGetters["axios/axios"].get("/users/profile");
       } catch (error) {
         console.error(error);
       }
@@ -102,7 +99,7 @@ const User = {
       return dispatch("fetchData")
         .then((response) => {
           // Set user data
-          commit("setData", response.data.data.user);
+          commit("setData", response.data);
         })
         .catch((error) => {
           console.error(error);
@@ -110,10 +107,13 @@ const User = {
     },
 
     // Update user
-    async updateData({ rootGetters }, data) {
+    async updateData({ rootGetters, getters }, data) {
       try {
         // Update user data with new data specified
-        return rootGetters["axios/axios"].put("/auth/update", data);
+        return rootGetters["axios/axios"].put(
+          "/users/" + getters.user.id,
+          data
+        );
       } catch (error) {
         console.error(error);
       }
@@ -129,7 +129,7 @@ const User = {
     },
     // Check has token saved in local storage or in state
     async hasToken(state) {
-      if (!state._token) {
+      if (state._token === null) {
         const savedToken = await Storage.get({ key: "AUTH_TOKEN" });
         if (savedToken.value) state._token = savedToken.value;
       }
