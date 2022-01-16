@@ -2,7 +2,7 @@
     <header>
         <div>
             <h1>{{ PageTitle }}</h1>
-            <small>L'essentiel est là !</small>
+            <small>{{ PageDesc }}</small>
         </div>
 
         <div>
@@ -16,19 +16,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-const PageTitle = ref("PageTitle");
+const PageTitle = ref();
+const PageDesc = ref();
 const route = useRoute();
 
-onBeforeRouteUpdate(() => {
-    definePageTitle();
+watch(() => route.name, () => {
+    definePageTitleDesc(route);
 })
 
-definePageTitle();
-function definePageTitle() {
-    PageTitle.value = route.meta.title ?? "NaN";
+definePageTitleDesc(route);
+async function definePageTitleDesc(_route) {
+    PageTitle.value = _route.meta.title ?? "NaN";
+    PageDesc.value = _route.meta.description ?? "";
 }
 
 </script>
@@ -196,6 +198,24 @@ main {
         h2 {
             margin-bottom: 40px;
         }
+    }
+}
+
+label {
+    font-weight: 600;
+}
+
+input {
+    &[type=text], &[type=password], &[type=email] {
+        display: flex;
+        height: 28px;
+        width: 100%;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 10px;
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+
     }
 }
 </style>

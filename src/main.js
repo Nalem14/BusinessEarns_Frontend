@@ -25,7 +25,7 @@ router.beforeEach(async (to) => {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
     return {
-      path: "/login",
+      name: "Login",
       // save the location we were at to come back later
       query: { redirect: to.fullPath },
     };
