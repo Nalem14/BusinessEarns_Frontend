@@ -1,6 +1,5 @@
 <template>
     <header>
-
         <div>
             <h1>{{ PageTitle }}</h1>
             <small>L'essentiel est là !</small>
@@ -17,15 +16,15 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 
 const PageTitle = ref("PageTitle");
 const route = useRoute();
 
-watch(() => route.name, () => {
+onBeforeRouteUpdate(() => {
     definePageTitle();
-});
+})
 
 definePageTitle();
 function definePageTitle() {
@@ -43,6 +42,8 @@ function definePageTitle() {
 html, body {
     font-family: 'Raleway', 'Roboto', sans-serif;
     color: $font-color;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 a {

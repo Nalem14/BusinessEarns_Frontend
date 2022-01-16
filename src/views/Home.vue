@@ -12,25 +12,31 @@
         <h3>Ma compagnie</h3>
         <div>
           <ul>
-            <li>Objectif <span>300€</span></li>
-            <li>Ce mois-ci <span>150€</span></li>
-            <li>Le mois dernier <span>150€</span></li>
+            <li>
+              Objectif
+              <span>300€</span>
+            </li>
+            <li>
+              Ce mois-ci
+              <span>150€</span>
+            </li>
+            <li>
+              Le mois dernier
+              <span>150€</span>
+            </li>
           </ul>
         </div>
       </div>
 
       <div>
         <router-link to class="btn">
-          <FontAwesomeIcon icon="plus-square" />
-          Revenu
+          <FontAwesomeIcon icon="plus-square" />Revenu
         </router-link>
         <router-link to class="btn">
-          <FontAwesomeIcon icon="chart-line" />
-          Stats
+          <FontAwesomeIcon icon="chart-line" />Stats
         </router-link>
         <router-link to class="btn">
-          <FontAwesomeIcon icon="edit" />
-          Modifier
+          <FontAwesomeIcon icon="edit" />Modifier
         </router-link>
       </div>
     </article>
@@ -40,26 +46,35 @@
 <script setup>
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { Toast } from "@capacitor/toast";
+import { Dialog } from '@capacitor/dialog';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+requestNotificationPermission();
+async function requestNotificationPermission() {
+  const perms = await LocalNotifications.checkPermissions();
+  if (perms.display !== "prompt")
+    return;
+    
+  const wantNotification = await Dialog.confirm({
+    title: 'Me notifier',
+    message: `Voulez-vous recevoir une notification de rappel chaque jour afin d'ajouter vos gains ?`,
+  });
 
-Toast.show({
-  text: 'Hello!',
-});
+  if (!wantNotification.value)
+    return;
 
-checkNotificationScheduled();
+  const status = await LocalNotifications.requestPermissions();
+  if (status.display !== 'granted') {
+    throw new Error('User denied permissions!');
+  } else {
+    await checkNotificationScheduled();
+    Toast.show({
+      text: 'Merci ! Nous vous rappellerons chaque jour d\'ajouter vos gains.',
+    });
+  }
+}
 async function checkNotificationScheduled() {
   const pendings = await LocalNotifications.getPending();
-  const perms = await LocalNotifications.checkPermissions();
-  if (perms.display === "prompt") {
-    setTimeout(() => {
-      LocalNotifications.requestPermissions().then(status => {
-        if (status.display !== 'granted') {
-          throw new Error('User denied permissions!');
-        }
-      })
-    }, 3500)
-  }
 
   if (pendings.notifications.length === 0) {
     LocalNotifications.schedule({
@@ -140,6 +155,7 @@ section {
             display: flex;
             justify-content: space-between;
             font-size: 1rem;
+            font-weight: 100;
           }
         }
       }

@@ -128,7 +128,7 @@ const User = {
       return getters.isAuthenticated && state._data.isAdmin === true;
     },
     // Check has token saved in local storage or in state
-    hasToken(state) {
+    async hasToken(state) {
       if (!state._token) {
         const savedToken = await Storage.get({ key: "AUTH_TOKEN" });
         if (savedToken.value) state._token = savedToken.value;
