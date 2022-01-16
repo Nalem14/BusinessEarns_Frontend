@@ -7,8 +7,8 @@
 
         <div>
             <figure>
-                <router-link to="">
-                    <img src="https://via.placeholder.com/48" alt="Profil">
+                <router-link :to="{ name: 'Profile' }">
+                    <vue-gravatar :email="user.email" :size="48" />
                 </router-link>
             </figure>
         </div>
@@ -18,10 +18,12 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { mapGetters } from '../../lib';
 
 const PageTitle = ref();
 const PageDesc = ref();
 const route = useRoute();
+const { user } = mapGetters("user");
 
 watch(() => route.name, () => {
     definePageTitleDesc(route);

@@ -8,6 +8,7 @@ import { faPlusSquare, faChartLine, faEdit, faHome } from "@fortawesome/free-sol
 // import { faBrands } from '@fortawesome/free-brands-svg-icons'
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import VueGravatar from "vue3-gravatar";
 
 library.add(faPlusSquare, faChartLine, faEdit, faHome);
 
@@ -18,6 +19,7 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(router);
 app.use(store);
+app.use(VueGravatar);
 
 // Routes auth guard
 router.beforeEach(async (to) => {

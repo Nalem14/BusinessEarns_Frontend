@@ -42,7 +42,7 @@ const User = {
     async login({ rootGetters, dispatch }, data) {
       // Send login request to API with email and password in data object
       return rootGetters["axios/axios"]
-        .post("/users/auth/login/", data)
+        .post("/users/auth/login", data)
         .then((response) => {
           console.log(response)
           // Authenticate with token received

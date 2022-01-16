@@ -44,13 +44,14 @@
 <script setup>
 import { Toast } from '@capacitor/toast';
 import { watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { mapActions, mapGetters, mapState } from '../lib';
 import { handleErrorMessage } from '../mixins/Helper.mixin.js';
 
 const { login, authenticate, logout } = mapActions("user");
 const { hasToken, isAuthenticated } = mapGetters("user");
 const { _token } = mapState("user");
+const route = useRoute();
 const router = useRouter();
 const props = defineProps({
     email: String,
@@ -78,7 +79,11 @@ async function redirectIfLoggedin() {
              Toast.show({
                 text: "Vous êtes déjà connecté, Bienvenue sur votre espace ! "
             });
-            router.push({ name: "Home" })
+
+            if(route.query.redirect && route.query.redirect.length > 0)
+                router.push(route.query.redirect);
+            else 
+                router.push({ name: "Home" });
         })
         .catch((err) => {
             console.error(err)
