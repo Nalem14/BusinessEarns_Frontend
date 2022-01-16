@@ -31,6 +31,17 @@ const routes = [
     component: () => import("../views/Profile.vue"),
   },
 
+
+  {
+    path: "/company/:id",
+    name: "Company",
+    meta: {
+      requiresAuth: true,
+      title: "Modifier la société",
+      description: "Gérez les informations et l'objectif de la société",
+    },
+    component: () => import("../views/Company.vue"),
+  },
   {
     path: "/company/:id/earns",
     name: "CompanyEarns",

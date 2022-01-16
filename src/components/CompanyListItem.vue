@@ -27,7 +27,7 @@
             <router-link to class="btn">
                 <FontAwesomeIcon icon="chart-line" />Stats
             </router-link>
-            <router-link to class="btn">
+            <router-link :to="{ name: 'Company', params: { id: id } }" class="btn">
                 <FontAwesomeIcon icon="edit" />Modifier
             </router-link>
         </div>
@@ -64,7 +64,7 @@ function earnThisMonth() {
 
     let amount = 0;
 
-    let list = earns.value.filters(earn => moment(earn.createdAt).toDate() > moment().startOf("month").toDate());
+    let list = earns.value.filter(earn => moment(earn.createdAt).toDate() > moment().startOf("month").toDate());
     for(let i = 0; i < list.length; i++) {
         const earn = list[i];
         amount += earn.amount;
@@ -79,7 +79,7 @@ function earnLastMonth() {
 
     let amount = 0;
 
-    let list = earns.value.filters(earn => moment(earn.createdAt).toDate() < moment().startOf("month").toDate() && moment(earn.createdAt).toDate() > moment().subtract(1, "month").startOf("month"));
+    let list = earns.value.filter(earn => moment(earn.createdAt).toDate() < moment().startOf("month").toDate() && moment(earn.createdAt).toDate() > moment().subtract(1, "month").startOf("month"));
     for(let i = 0; i < list.length; i++) {
         const earn = list[i];
         amount += earn.amount;

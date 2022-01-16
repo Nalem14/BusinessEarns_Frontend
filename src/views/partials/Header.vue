@@ -160,6 +160,7 @@ header {
     flex-direction: row;
     justify-content: space-between;
     margin: 20px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px;
 
     h1 {
         display: flex;
@@ -192,7 +193,7 @@ header {
 
 main {
     margin: 20px;
-    min-height: 100vh;
+    min-height: 80vh;
 
     section {
         margin-top: 40px;

@@ -10,21 +10,7 @@
         </li>
 
         <li>
-          <router-link to="/tst">
-            <FontAwesomeIcon icon="home" />
-            <span>Home</span>
-          </router-link>
-        </li>
-
-        <li>
           <router-link :to="{ name: 'Home' }">
-            <FontAwesomeIcon icon="home" />
-            <span>Home</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link to="/tst">
             <FontAwesomeIcon icon="home" />
             <span>Home</span>
           </router-link>
@@ -60,6 +46,7 @@ section#bottom-nav {
     align-items: center;
     height: 64px;
     background-color: $color-primary;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px 20px;
 
     ul {
       display: flex;

@@ -21,6 +21,9 @@ const Company = {
     setCompanies(state, payload) {
       state.companies = payload;
     },
+    deleteCompany(state, payload) {
+        state.companies = state.companies.filter(e => e.id !== payload);
+    }
   },
   actions: {
     /**
@@ -30,6 +33,17 @@ const Company = {
       return await rootGetters["axios/axios"].post("/companies", {
         name: name,
       });
+    },
+    async updateCompany({ rootGetters, dispatch }, { id, name, objective }) {
+        const response = await rootGetters["axios/axios"].put(`/companies/${id}`, {
+            name: name,
+            objective: objective
+        });
+        dispatch("setCompany", response.data);
+    },
+    async deleteCompany({ rootGetters, commit }, id) {
+        await rootGetters["axios/axios"].delete(`/companies/${id}`);
+        commit("deleteCompany", id);
     },
     async fetchCompanies({ commit, rootGetters }) {
       const response = await rootGetters["axios/axios"].get("/companies");
