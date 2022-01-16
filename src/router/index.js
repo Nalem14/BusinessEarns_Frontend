@@ -15,6 +15,15 @@ const routes = [
     meta: { requiresAuth: true, title: "Tableau de bord", description: "Un résumé de votre activitée" },
     component: () => import("../views/Home.vue"),
   },
+
+  {
+    path: "/profile",
+    name: "Profile",
+    meta: { requiresAuth: true, title: "Mon profil", description: "Gestion de votre compte" },
+    component: () => import("../views/Profile.vue"),
+  },
+
+
   {
     path: "/login",
     name: "Login",
