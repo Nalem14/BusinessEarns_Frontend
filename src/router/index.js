@@ -62,6 +62,16 @@ const routes = [
     },
     component: () => import("../views/CompanyEarns.vue"),
   },
+  {
+    path: "/company/:id/stats",
+    name: "CompanyStats",
+    meta: {
+      requiresAuth: true,
+      title: "Stats de la société",
+      description: "Accès à des statistiques détaillé des revenus",
+    },
+    component: () => import("../views/CompanyStats.vue"),
+  },
 
   {
     path: "/login",

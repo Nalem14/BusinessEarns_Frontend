@@ -209,7 +209,7 @@ label {
 }
 
 input {
-    &[type=text], &[type=password], &[type=email] {
+    &[type=text], &[type=password], &[type=email], &[type=date] {
         display: flex;
         height: 28px;
         width: 100%;

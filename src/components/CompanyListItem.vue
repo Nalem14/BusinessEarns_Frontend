@@ -24,7 +24,7 @@
             <router-link :to="{ name: 'CompanyEarns', params: { id: id } }" class="btn">
                 <FontAwesomeIcon icon="plus-square" />Revenu
             </router-link>
-            <router-link to class="btn">
+            <router-link :to="{ name: 'CompanyStats', params: { id: id } }" class="btn">
                 <FontAwesomeIcon icon="chart-line" />Stats
             </router-link>
             <router-link :to="{ name: 'Company', params: { id: id } }" class="btn">

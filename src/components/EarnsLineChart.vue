@@ -10,7 +10,7 @@
 <script setup>
 import { Chart, registerables } from 'chart.js';
 import { LineChart } from 'vue-chart-3';
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { moment, randomColor } from '../mixins/Helper.mixin';
 import { mapActions, mapGetters, mapState } from '../lib';
 
@@ -26,14 +26,14 @@ const props = defineProps({
         required: false
     },
     fromDate: {
-        type: Object,
+        type: [Object,String],
         default() {
             return moment().startOf("month");
         },
         required: false
     },
     toDate: {
-        type: Object,
+        type: [Object,String],
         default() {
             return moment().endOf("day");
         },
@@ -78,6 +78,14 @@ const options = ref({
 });
 
 init();
+defineExpose({
+    statsData
+});
+
+// Update datas on change
+watch(() => props.fromDate + props.toDate + props.perType, () => {
+    init();
+})
 
 async function init() {
     let myCompanies = props.companies;
@@ -89,6 +97,13 @@ async function init() {
     // Define base datas
     let from = props.fromDate;
     let to = props.toDate;
+
+    // Ensure date is moment object
+    if(moment.isMoment(from) === false)
+        from = moment(from);
+    if(moment.isMoment(to) === false)
+        to = moment(to);
+
     let dateFormat = () => {
         if (props.perType === "day")
             return "DD/MM/YYYY";
