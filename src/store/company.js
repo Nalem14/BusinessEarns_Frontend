@@ -1,3 +1,5 @@
+import { moment } from "../mixins/Helper.mixin";
+
 const Company = {
   namespaced: true,
 
@@ -16,14 +18,56 @@ const Company = {
         return null;
       };
     },
+    earnByDate() {
+      return function (from, to, arrayEarns, returnArray = false) {
+        if (arrayEarns.length <= 0) return 0;
+
+        let amount = 0;
+
+        let list = arrayEarns.filter(
+          (earn) =>
+            moment(earn.createdAt).isBefore(to) &&
+            moment(earn.createdAt).isAfter(from)
+        );
+
+        if (returnArray) return list;
+
+        for (let i = 0; i < list.length; i++) {
+          const earn = list[i];
+          amount += earn.amount;
+        }
+
+        return amount;
+      };
+    },
+    earnThisMonth(state, getters) {
+      return function (arrayEarns, returnArray = false) {
+        return getters.earnByDate(
+          moment().startOf("month"),
+          moment().endOf("month"),
+          arrayEarns,
+          returnArray
+        );
+      };
+    },
+    earnLastMonth(state, getters) {
+      return function (arrayEarns, returnArray = false) {
+        return getters.earnByDate(
+          moment().subtract(1, "month").startOf("month"),
+          moment().subtract(1, "month").endOf("month"),
+          arrayEarns,
+          returnArray
+        );
+      };
+    },
   },
   mutations: {
     setCompanies(state, payload) {
       state.companies = payload;
     },
     deleteCompany(state, payload) {
-        state.companies = state.companies.filter(e => e.id !== payload);
-    }
+      state.companies = state.companies.filter((e) => e.id !== payload);
+    },
   },
   actions: {
     /**
@@ -35,19 +79,25 @@ const Company = {
       });
     },
     async updateCompany({ rootGetters, dispatch }, { id, name, objective }) {
-        const response = await rootGetters["axios/axios"].put(`/companies/${id}`, {
-            name: name,
-            objective: objective
-        });
-        dispatch("setCompany", response.data);
+      const response = await rootGetters["axios/axios"].put(
+        `/companies/${id}`,
+        {
+          name: name,
+          objective: objective,
+        }
+      );
+      dispatch("setCompany", response.data);
     },
     async deleteCompany({ rootGetters, commit }, id) {
-        await rootGetters["axios/axios"].delete(`/companies/${id}`);
-        commit("deleteCompany", id);
+      await rootGetters["axios/axios"].delete(`/companies/${id}`);
+      commit("deleteCompany", id);
     },
     async fetchCompanies({ commit, rootGetters }) {
-      const response = await rootGetters["axios/axios"].get("/companies");
-      commit("setCompanies", response.data);
+      return new Promise(async (resolve) => {
+        const response = await rootGetters["axios/axios"].get("/companies");
+        commit("setCompanies", response.data);
+        resolve();
+      });
     },
     async fetchCompany({ rootGetters }, id) {
       return await rootGetters["axios/axios"].get("/companies/" + id);

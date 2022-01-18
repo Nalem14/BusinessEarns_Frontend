@@ -3,9 +3,9 @@
     <nav>
       <ul>
         <li>
-          <router-link to="/tst">
-            <FontAwesomeIcon icon="home" />
-            <span>Home</span>
+          <router-link :to="{ name: 'Companies' }">
+            <FontAwesomeIcon icon="th-list" />
+            <span>Sociétés</span>
           </router-link>
         </li>
 

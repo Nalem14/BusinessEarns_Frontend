@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">business-earns-vue</string>
-    <string name="title_activity_main">business-earns-vue</string>
+    <string name="app_name">Business Earns</string>
+    <string name="title_activity_main">Business Earns</string>
     <string name="package_name">fr.bucaillethommy.businessEarns</string>
     <string name="custom_url_scheme">fr.bucaillethommy.businessEarns</string>
 </resources>

@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "vite",
     "web:build": "vite build",
+    "mob:open": "npx cap open android",
     "mob:sync": "npx cap sync",
     "mob:run": "npx cap run",
     "build": "npm run web:build && npm run mob:sync && npm run mob:run",
@@ -24,6 +25,7 @@
     "axios": "^0.24.0",
     "moment": "^2.29.1",
     "vue": "^3.2.25",
+    "vue-chart-3": "^3.0.7",
     "vue-router": "^4.0.12",
     "vue3-gravatar": "^3.0.0",
     "vuex": "^4.0.2"

@@ -1,9 +1,13 @@
 <template>
   <section>
-    <h2>Statistiques global</h2>
+    <h2>
+      Liste de vos sociétés
+      <button type="button" class="btn btn--success" @click="onCreateCompany">
+        <FontAwesomeIcon icon="plus-square" />
+      </button>
+    </h2>
 
-    <EarnsLineChartVue title="Gains sur les 7 dernier jours (/jour)" perType="day" :fromDate="moment().subtract(7, 'day')" />
-    <EarnsLineChartVue title="Gains sur les 12 derniers mois (/mois)" perType="month" :fromDate="moment().subtract(12, 'month')" />
+    <CompanyListItem v-for="item in companies" v-bind="item" :key="item.id" />
   </section>
 </template>
 
@@ -11,16 +15,46 @@
 import { LocalNotifications } from "@capacitor/local-notifications";
 import { Toast } from "@capacitor/toast";
 import { Dialog } from '@capacitor/dialog';
-import EarnsLineChartVue from "../components/EarnsLineChart.vue";
-import { moment } from "../mixins/Helper.mixin";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { mapActions, mapState } from "../lib";
+import CompanyListItem from "../components/CompanyListItem.vue";
+import { handleErrorMessage } from "../mixins/Helper.mixin";
+
+const { createCompany, fetchCompanies } = mapActions("company");
+const { companies } = mapState("company");
 
 requestNotificationPermission();
+if(companies.value.length === 0)
+    fetchCompanies();
 
+async function onCreateCompany() {
+  const { value, cancelled } = await Dialog.prompt({
+    title: 'Créer une société',
+    message: `Quel est le nom de votre société ?`,
+  });
+
+  if(cancelled)
+    return;
+
+  try {
+    await createCompany(value);
+    await fetchCompanies();
+
+    Toast.show({
+      text: 'Votre société as bien été ajoutée !',
+    });
+  } catch (error) {
+    const errorMessage = handleErrorMessage(error);
+    Toast.show({
+      text: 'Erreur lors de la création de la société : ' + errorMessage,
+    });
+  }
+}
 async function requestNotificationPermission() {
   const perms = await LocalNotifications.checkPermissions();
   if (perms.display !== "prompt")
     return;
-
+    
   const wantNotification = await Dialog.confirm({
     title: 'Me notifier',
     message: `Voulez-vous recevoir une notification de rappel chaque jour afin d'ajouter vos gains ?`,
@@ -41,7 +75,6 @@ async function requestNotificationPermission() {
 }
 async function checkNotificationScheduled() {
   const pendings = await LocalNotifications.getPending();
-  console.log("PENDING NOTIF", pendings);
 
   if (pendings.notifications.length === 0) {
     LocalNotifications.schedule({
