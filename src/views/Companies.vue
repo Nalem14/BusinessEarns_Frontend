@@ -12,7 +12,6 @@
 </template>
 
 <script setup>
-import { LocalNotifications } from "@capacitor/local-notifications";
 import { Toast } from "@capacitor/toast";
 import { Dialog } from '@capacitor/dialog';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -23,7 +22,6 @@ import { handleErrorMessage } from "../mixins/Helper.mixin";
 const { createCompany, fetchCompanies } = mapActions("company");
 const { companies } = mapState("company");
 
-requestNotificationPermission();
 if(companies.value.length === 0)
     fetchCompanies();
 
@@ -48,51 +46,6 @@ async function onCreateCompany() {
     Toast.show({
       text: 'Erreur lors de la création de la société : ' + errorMessage,
     });
-  }
-}
-async function requestNotificationPermission() {
-  const perms = await LocalNotifications.checkPermissions();
-  if (perms.display !== "prompt")
-    return;
-    
-  const wantNotification = await Dialog.confirm({
-    title: 'Me notifier',
-    message: `Voulez-vous recevoir une notification de rappel chaque jour afin d'ajouter vos gains ?`,
-  });
-
-  if (!wantNotification.value)
-    return;
-
-  const status = await LocalNotifications.requestPermissions();
-  if (status.display !== 'granted') {
-    throw new Error('User denied permissions!');
-  } else {
-    await checkNotificationScheduled();
-    Toast.show({
-      text: 'Merci ! Nous vous rappellerons chaque jour d\'ajouter vos gains.',
-    });
-  }
-}
-async function checkNotificationScheduled() {
-  const pendings = await LocalNotifications.getPending();
-
-  if (pendings.notifications.length === 0) {
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          id: 1,
-          title: "Test",
-          body: "Ma notif de texte",
-          schedule: {
-            every: "day",
-            count: 1,
-            repeats: true,
-            allowWhileIdle: true
-          },
-          ongoing: true,
-        }
-      ]
-    })
   }
 }
 </script>
