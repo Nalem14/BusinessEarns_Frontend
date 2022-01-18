@@ -4,6 +4,15 @@ MOMENT.locale("fr");
 
 export const moment = MOMENT;
 
+export function randomColor() {
+    var color;
+    color = Math.floor(Math.random() * 0x1000000); // integer between 0x0 and 0xFFFFFF
+    color = color.toString(16); // convert to hex
+    color = ("000000" + color).slice(-6); // pad with leading zeros
+    color = "#" + color; // prepend #
+    return color;
+}
+
 export function slugify(str) {
     if (str == undefined || str.length == 0)
         return "";

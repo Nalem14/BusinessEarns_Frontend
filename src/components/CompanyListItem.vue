@@ -10,11 +10,11 @@
                     </li>
                     <li>
                         Ce mois-ci
-                        <span>{{ earnThisMonth() }}€</span>
+                        <span v-if="earns !== null">{{ earnThisMonth(earns) }}€</span>
                     </li>
                     <li>
                         Le mois dernier
-                        <span>{{ earnLastMonth() }}€</span>
+                        <span v-if="earns !== null">{{ earnLastMonth(earns) }}€</span>
                     </li>
                 </ul>
             </div>
@@ -37,11 +37,11 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { ref, onMounted } from 'vue';
-import { mapActions } from '../lib';
-import { moment } from '../mixins/Helper.mixin';
+import { mapActions, mapGetters } from '../lib';
 
 const { fetchEarns } = mapActions("company");
-const earns = ref([]);
+const { earnThisMonth, earnLastMonth } = mapGetters("company");
+const earns = ref(null);
 const props = defineProps({
     id: Number,
     name: String,
@@ -57,35 +57,6 @@ onMounted(() => {
 
 async function initDatas() {
     earns.value = await fetchEarns(props.id);
-}
-function earnThisMonth() {
-    if(earns.value.length <= 0)
-        return 0;
-
-    let amount = 0;
-
-    let list = earns.value.filter(earn => moment(earn.createdAt).toDate() > moment().startOf("month").toDate());
-    for(let i = 0; i < list.length; i++) {
-        const earn = list[i];
-        amount += earn.amount;
-    }
-
-    return amount;
-}
-
-function earnLastMonth() {
-    if(earns.value.length <= 0)
-        return 0;
-
-    let amount = 0;
-
-    let list = earns.value.filter(earn => moment(earn.createdAt).toDate() < moment().startOf("month").toDate() && moment(earn.createdAt).toDate() > moment().subtract(1, "month").startOf("month"));
-    for(let i = 0; i < list.length; i++) {
-        const earn = list[i];
-        amount += earn.amount;
-    }
-
-    return amount;
 }
 </script>
 

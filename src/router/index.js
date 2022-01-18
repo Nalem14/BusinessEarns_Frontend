@@ -33,6 +33,16 @@ const routes = [
 
 
   {
+    path: "/companies",
+    name: "Companies",
+    meta: {
+      requiresAuth: true,
+      title: "Vos sociétés",
+      description: "Gérez vos sociétés",
+    },
+    component: () => import("../views/Companies.vue"),
+  },
+  {
     path: "/company/:id",
     name: "Company",
     meta: {
