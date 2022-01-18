@@ -4,7 +4,7 @@
 
         <form action="POST" @submit.prevent>
             <div>
-                <button type="button" @click="exportToCsv" class="btn btn--success">Exporter au format CSV</button>
+                <button type="button" @click="exportToCsv" class="btn btn--success"><FontAwesomeIcon icon="file-csv" /> Exporter au format CSV</button>
             </div>
 
             <div>
@@ -43,7 +43,8 @@ import { useRoute } from "vue-router";
 import EarnsLineChartVue from "../components/EarnsLineChart.vue";
 import { mapActions } from "../lib";
 import { moment } from "../mixins/Helper.mixin";
-import { json2csv, json2csvAsync } from 'json-2-csv';
+import { json2csvAsync } from 'json-2-csv';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const { getCompany } = mapActions("company");
 const route = useRoute();
@@ -108,6 +109,9 @@ section {
 
             .btn {
                 margin-bottom: 15px;
+                svg {
+                    margin-right: 5px;
+                }
             }
         }
     }
