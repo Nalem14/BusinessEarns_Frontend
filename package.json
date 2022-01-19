@@ -11,10 +11,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@awesome-cordova-plugins/file-opener": "^5.37.3",
     "@capacitor/android": "^3.3.4",
     "@capacitor/cli": "^3.3.4",
     "@capacitor/core": "^3.3.4",
     "@capacitor/dialog": "^1.0.6",
+    "@capacitor/filesystem": "^1.0.7",
     "@capacitor/local-notifications": "^1.0.10",
     "@capacitor/storage": "^1.2.3",
     "@capacitor/toast": "^1.0.6",
@@ -23,6 +25,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "axios": "^0.24.0",
+    "cordova-plugin-file-opener2": "^3.0.5",
+    "jetifier": "^2.0.0",
     "json-2-csv": "^3.16.0",
     "moment": "^2.29.1",
     "vue": "^3.2.25",

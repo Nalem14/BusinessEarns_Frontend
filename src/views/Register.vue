@@ -40,40 +40,33 @@
 
 <script setup>
 import { Toast } from '@capacitor/toast';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { mapActions } from '../lib';
 import { handleErrorMessage } from '../mixins/Helper.mixin.js';
 
 const router = useRouter();
 const { create } = mapActions("user");
-const props = defineProps({
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    confirmPassword: String
-});
+const firstName = ref();
+const lastName = ref();
+const email = ref();
+const password = ref();
+const confirmPassword = ref();
 
 async function onSubmitRegisterForm() {
     try {
-        if(props.password !== props.confirmPassword)
+        if(password.value !== confirmPassword.value)
             throw new Error("Les mots de passe ne correspondent pas !");
-        if(props.password.length < 8)
-            throw new Error("Veuillez indiquer un mot de passe d'au moins 8 caractères de longeur.")
-        if(props.firstName.length < 3)
-            throw new Error("Veuillez indiquer un prénom d'au moins 3 caractères de longueur.")
-        if(props.lastName.length < 3)
-            throw new Error("Veuillez indiquer un nom d'au moins 3 caractères de longueur.")
 
-        await create({ firstName: props.firstName, lastName: props.lastName, email: props.email, password: props.password });
+        await create({ firstName: firstName.value, lastName: lastName.value, email: email.value, password: password.value });
 
         Toast.show({
-            text: "Compte créé, connctez-vous à l'aide de vos identifiants !"
+            text: "Compte créé, connectez-vous à l'aide de vos identifiants !"
         });
         router.push({ name: "Login" })
     }catch(error) {
         const errorMessage = handleErrorMessage(error);
-        console.log(errorMessage);
+        console.log(error);
         Toast.show({
             text: "Erreur : " + errorMessage
         });

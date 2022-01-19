@@ -19,7 +19,7 @@ import { formatDateTime } from '../mixins/Helper.mixin';
 const earns = ref([]);
 const props = defineProps({
     id: Number,
-    amount: Number,
+    amount: String,
     createdAt: String,
     updatedAt: String,
     companyId: Number

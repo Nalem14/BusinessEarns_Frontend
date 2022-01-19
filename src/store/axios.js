@@ -10,8 +10,12 @@ const Axios = {
     axios(state) {
       if (state.instance !== null) return state.instance;
 
+      let url = "/api";
+      if(process.env.NODE_ENV === "production")
+        url = "https://oneill.orion-serv.fr:44094";
+
       const instance = AXIOS.create({
-        baseURL: "/api",
+        baseURL: url,
         timeout: 5000,
       });
 
