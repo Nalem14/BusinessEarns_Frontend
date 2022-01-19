@@ -17,9 +17,9 @@
         </li>
 
         <li>
-          <router-link to="/tst">
-            <FontAwesomeIcon icon="home" />
-            <span>Home</span>
+          <router-link :to="{ name: 'Profile' }">
+            <FontAwesomeIcon icon="user" />
+            <span>Profil</span>
           </router-link>
         </li>
       </ul>
@@ -31,7 +31,8 @@
   </footer>
 </template>
 
-<script setup>import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+<script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 </script>
 
 <style lang="scss">

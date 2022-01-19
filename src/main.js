@@ -4,13 +4,13 @@ import App from "./App.vue";
 import store from "./store";
 import createRouter from "./router";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPlusSquare, faChartLine, faEdit, faHome, faTrashAlt, faThList, faFileCsv } from "@fortawesome/free-solid-svg-icons";
+import { faPlusSquare, faChartLine, faEdit, faHome, faTrashAlt, faThList, faFileCsv, faUser } from "@fortawesome/free-solid-svg-icons";
 // import { faBrands } from '@fortawesome/free-brands-svg-icons'
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import VueGravatar from "vue3-gravatar";
 
-library.add(faPlusSquare, faChartLine, faEdit, faHome, faTrashAlt, faThList, faFileCsv);
+library.add(faPlusSquare, faChartLine, faEdit, faHome, faTrashAlt, faThList, faFileCsv, faUser);
 
 const app = createApp(App);
 const router = createRouter(createWebHistory());

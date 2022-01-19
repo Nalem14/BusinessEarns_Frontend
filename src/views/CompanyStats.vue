@@ -4,7 +4,9 @@
 
         <form action="POST" @submit.prevent>
             <div>
-                <button type="button" @click="exportToCsv" class="btn btn--success"><FontAwesomeIcon icon="file-csv" /> Exporter au format CSV</button>
+                <button type="button" @click="exportToCsv" class="btn btn--success">
+                    <FontAwesomeIcon icon="file-csv" />Exporter au format CSV
+                </button>
             </div>
 
             <div>
@@ -45,6 +47,8 @@ import { mapActions } from "../lib";
 import { moment } from "../mixins/Helper.mixin";
 import { json2csvAsync } from 'json-2-csv';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener';
 
 const { getCompany } = mapActions("company");
 const route = useRoute();
@@ -63,14 +67,14 @@ function changeType(e) {
 }
 async function exportToCsv() {
     let document = [];
-    for(let i = 0; i < statsRef.value.statsData.datasets.length; i++) {
+    for (let i = 0; i < statsRef.value.statsData.datasets.length; i++) {
         const data = statsRef.value.statsData.datasets[i];
 
         let tmp = {
             society: data.label,
         };
 
-        for(let j = 0; j < statsRef.value.statsData.labels.length; j++) {
+        for (let j = 0; j < statsRef.value.statsData.labels.length; j++) {
             const label = statsRef.value.statsData.labels[j];
             tmp[label] = data.data[j];
         }
@@ -79,9 +83,35 @@ async function exportToCsv() {
     }
 
     const csv = await json2csvAsync(document);
+    if(window)
+        window.open(encodeURI("data:text/csv;charset=utf-8," + csv)); // For web
 
-    var encodedUri = encodeURI("data:text/csv;charset=utf-8," + csv);
-    window.open(encodedUri);
+    const canShare = await Filesystem.checkPermissions();
+    if (canShare.publicStorage === "prompt" || canShare.publicStorage === "prompt-with-rationale") {
+        const perm = await Filesystem.requestPermissions();
+        if (perm.publicStorage !== "granted") {
+            console.error("access denied to FileSystem", perm.publicStorage);
+            return;
+        }
+    } 
+    
+    if(canShare.publicStorage !== "granted")
+        return;
+
+    await Filesystem.writeFile({
+        path: 'export.csv',
+        data: csv,
+        directory: Directory.Cache,
+        encoding: Encoding.UTF8,
+        recursive: true
+    });
+
+    const path = await Filesystem.getUri({
+        path: 'export.csv',
+        directory: Directory.Cache
+    })
+
+    await FileOpener.showOpenWithDialog(path.uri, "text/csv");
 }
 </script>
 

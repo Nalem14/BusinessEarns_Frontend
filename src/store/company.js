@@ -34,7 +34,7 @@ const Company = {
 
         for (let i = 0; i < list.length; i++) {
           const earn = list[i];
-          amount += earn.amount;
+          amount += parseFloat(earn.amount.toString());
         }
 
         return amount;

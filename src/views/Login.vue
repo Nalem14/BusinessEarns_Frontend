@@ -43,7 +43,7 @@
 
 <script setup>
 import { Toast } from '@capacitor/toast';
-import { watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { mapActions, mapGetters, mapState } from '../lib';
 import { handleErrorMessage } from '../mixins/Helper.mixin.js';
@@ -53,10 +53,9 @@ const { hasToken, isAuthenticated } = mapGetters("user");
 const { _token } = mapState("user");
 const route = useRoute();
 const router = useRouter();
-const props = defineProps({
-    email: String,
-    password: String
-});
+
+const email = ref();
+const password = ref();
 
 redirectIfLoggedin();
 watch(() => isAuthenticated, () => {
@@ -94,15 +93,17 @@ async function redirectIfLoggedin() {
 
 async function onSubmitLoginForm() {
     try {
-        await login({ email: props.email, password: props.password });
+        await login({ email: email.value, password: password.value });
         Toast.show({
             text: "Connexion réussi, Bienvenue sur votre espace ! "
         });
 
-        router.push({ name: "Home" })
+        setTimeout(() => {
+            router.push({ name: "Home" })
+        }, 500);
     } catch (error) {
         const errorMessage = handleErrorMessage(error);
-        console.log(errorMessage);
+        console.log(error);
         Toast.show({
             text: "Erreur : " + errorMessage
         });

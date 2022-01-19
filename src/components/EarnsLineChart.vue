@@ -100,9 +100,9 @@ async function init() {
 
     // Ensure date is moment object
     if(moment.isMoment(from) === false)
-        from = moment(from);
+        from = moment(from).startOf('day');
     if(moment.isMoment(to) === false)
-        to = moment(to);
+        to = moment(to).endOf("day");
 
     let dateFormat = () => {
         if (props.perType === "day")
@@ -200,6 +200,7 @@ async function init() {
         // For each earn entry, construct the ObjectData
         for (let index = 0; index < groupedEarns.length; index++) {
             const earn = groupedEarns[index];
+            earn.amount = parseFloat(earn.amount.toString()); // Ensure is float value
             const date = moment(earn.createdAt).format(dateFormat()).toString();
 
             // Get corresponding label key

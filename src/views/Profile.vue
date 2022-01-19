@@ -5,17 +5,32 @@
         <form action="POST" @submit.prevent="onSubmitEditUser">
             <div>
                 <label for="firstName">Votre prénom</label>
-                <input type="text" name="firstName" id="firstName" v-model="firstName" minlength="3" required autofocus>
+                <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    v-model="firstName"
+                    minlength="3"
+                    required
+                    autofocus
+                />
             </div>
 
             <div>
                 <label for="lastName">Votre nom</label>
-                <input type="text" name="lastName" id="lastName" v-model="lastName" minlength="3" required>
+                <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    v-model="lastName"
+                    minlength="3"
+                    required
+                />
             </div>
 
             <div>
                 <label for="email">Votre e-mail</label>
-                <input type="email" name="email" id="email" v-model="email" minlength="3" required>
+                <input type="email" name="email" id="email" v-model="email" minlength="3" required />
             </div>
 
             <div>
@@ -27,12 +42,26 @@
         <form action="POST" @submit.prevent="onSubmitEditPassword">
             <div>
                 <label for="password">Votre mot de passe</label>
-                <input type="password" name="password" id="password" v-model="password" minlength="8" required>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    v-model="password"
+                    minlength="8"
+                    required
+                />
             </div>
 
             <div>
                 <label for="confirm_password">Confirmez le mot de passe</label>
-                <input type="password" name="confirm_password" id="confirm_password" v-model="confirmPassword" minlength="8" required>
+                <input
+                    type="password"
+                    name="confirm_password"
+                    id="confirm_password"
+                    v-model="confirmPassword"
+                    minlength="8"
+                    required
+                />
             </div>
 
             <div>
@@ -40,11 +69,21 @@
             </div>
         </form>
 
+        <h2>Déconnexion de mon compte</h2>
+        <form action="POST" @submit.prevent="onSubmitLogout">
+            <div>
+                <button type="submit" class="btn btn--danger">Me déconnecter de ce compte</button>
+            </div>
+        </form>
+
         <h2>Supprimer mon compte</h2>
         <p>Attention:: Toute vos données seront également supprimées définitivement de notre plateforme.</p>
         <form action="POST" @submit.prevent="onSubmitDeleteAccount">
             <div>
-                <button type="submit" class="btn btn--danger">Supprimer mon compte et toute les données associées</button>
+                <button
+                    type="submit"
+                    class="btn btn--danger"
+                >Supprimer mon compte et toute les données associées</button>
             </div>
         </form>
     </section>
@@ -71,9 +110,9 @@ let password = ref(), confirmPassword = ref();
 
 async function onSubmitEditUser() {
     try {
-        if(firstName.value.length < 3)
+        if (firstName.value.length < 3)
             throw new Error("Veuillez indiquer un prénom d'au moins 3 caractères de longueur.")
-        if(lastName.value.length < 3)
+        if (lastName.value.length < 3)
             throw new Error("Veuillez indiquer un nom d'au moins 3 caractères de longueur.")
 
         await updateData({ firstName: firstName.value, lastName: lastName.value, email: email.value });
@@ -82,7 +121,7 @@ async function onSubmitEditUser() {
         Toast.show({
             text: "Informations modifiées."
         });
-    }catch(error) {
+    } catch (error) {
         const errorMessage = handleErrorMessage(error);
         Toast.show({
             text: "Erreur : " + errorMessage
@@ -93,9 +132,9 @@ async function onSubmitEditUser() {
 async function onSubmitEditPassword() {
     try {
         console.log(password.value, confirmPassword.value)
-        if(password.value !== confirmPassword.value)
+        if (password.value !== confirmPassword.value)
             throw new Error("Les mots de passe ne correspondent pas !");
-        if(password.value.length < 8)
+        if (password.value.length < 8)
             throw new Error("Veuillez indiquer un mot de passe d'au moins 8 caractères de longeur.")
 
         await updateData({ firstName: firstName.value, lastName: lastName.value, email: email.value, password: password.value });
@@ -104,7 +143,7 @@ async function onSubmitEditPassword() {
         Toast.show({
             text: "Mot de passe modifié."
         });
-    }catch(error) {
+    } catch (error) {
         password.value = ""; confirmPassword.value = "";
         const errorMessage = handleErrorMessage(error);
         Toast.show({
@@ -113,6 +152,13 @@ async function onSubmitEditPassword() {
     }
 }
 
+async function onSubmitLogout() {
+    await logout();
+    Toast.show({
+        text: "Vous n'êtes plus connecté."
+    });
+    router.push({ name: "Login" });
+}
 async function onSubmitDeleteAccount() {
     try {
         const { value } = await Dialog.confirm({
@@ -120,7 +166,7 @@ async function onSubmitDeleteAccount() {
             message: `Êtes-vous sûr de vouloir supprimer toute vos données ?`,
         });
 
-        if(!value)
+        if (!value)
             return;
 
         await axios.value.delete("/users/" + user.value.id);
@@ -131,7 +177,7 @@ async function onSubmitDeleteAccount() {
         });
         router.push({ name: "Login" });
 
-    }catch(error) {
+    } catch (error) {
         const errorMessage = handleErrorMessage(error);
         Toast.show({
             text: "Erreur : " + errorMessage
