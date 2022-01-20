@@ -1,6 +1,6 @@
 {
   "name": "business-earns-vue",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "scripts": {
     "dev": "vite",
     "web:build": "vite build",
@@ -26,6 +26,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "axios": "^0.24.0",
     "cordova-plugin-file-opener2": "^3.0.5",
+    "cordova-plugin-screen-orientation": "^3.0.2",
     "jetifier": "^2.0.0",
     "json-2-csv": "^3.16.0",
     "moment": "^2.29.1",
