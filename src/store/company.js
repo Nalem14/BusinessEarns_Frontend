@@ -86,11 +86,14 @@ const Company = {
           objective: objective,
         }
       );
-      dispatch("setCompany", response.data);
+      
+      await dispatch("setCompany", response.data);
+      return response;
     },
     async deleteCompany({ rootGetters, commit }, id) {
-      await rootGetters["axios/axios"].delete(`/companies/${id}`);
+      const response = await rootGetters["axios/axios"].delete(`/companies/${id}`);
       commit("deleteCompany", id);
+      return response;
     },
     async fetchCompanies({ commit, rootGetters }) {
       return new Promise(async (resolve) => {
@@ -110,18 +113,20 @@ const Company = {
       let newList = [response.data, ...state.companies];
       commit("setCompanies", newList);
 
-      return dispatch("getCompany", id);
+      return await dispatch("getCompany", id);
     },
-    setCompany({ state, commit }, newCompany) {
-      let list = state.companies.map((company) => {
-        if (company.id === id) {
-          return newCompany;
-        }
+    async setCompany({ state, commit }, newCompany) {
+      let companies = state.companies;
 
-        return company;
-      });
+      for(let i = 0; i < companies.length; i++) {
+        const company = companies[i];
+        if(company.id === id) {
+          companies[i] = newCompany;
+        }
+      }
 
       commit("setCompanies", list);
+      return companies;
     },
 
     /**

@@ -19,7 +19,7 @@
             </div>
 
             <div>
-                <button type="submit" class="btn">Modifier mes infos</button>
+                <button type="submit" class="btn">Modifier les infos</button>
             </div>
         </form>
     </section>
@@ -53,8 +53,12 @@ async function initDatas() {
     companyObjective.value = company.value.objective;
 }
 async function onUpdateCompany() {
-    if(companyName.value.length < 3)
-        throw new Error("Veuillez indiquer un nom d'au moins 3 caractères de longueur.")
+    if(companyName.value.length < 3) {
+        Toast.show({
+            text: "Veuillez indiquer un nom d'au moins 3 caractères de longueur."
+        });
+        return;
+    }
     
     await updateCompany({ 
         id: route.params.id,
