@@ -79,7 +79,7 @@ const Company = {
       });
     },
     async updateCompany({ rootGetters, dispatch }, { id, name, objective }) {
-      const response = await rootGetters["axios/axios"].put(
+      const response = await rootGetters["axios/axios"].patch(
         `/companies/${id}`,
         {
           name: name,
@@ -138,7 +138,7 @@ const Company = {
       return response;
     },
     async updateEarn({ rootGetters }, { companyId, earnId, amount }) {
-      const response = await rootGetters["axios/axios"].put(
+      const response = await rootGetters["axios/axios"].patch(
         `/companies/${companyId}/earns/${earnId}`,
         {
           amount: amount,

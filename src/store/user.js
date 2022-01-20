@@ -110,7 +110,7 @@ const User = {
     async updateData({ rootGetters, getters }, data) {
       try {
         // Update user data with new data specified
-        return rootGetters["axios/axios"].put(
+        return rootGetters["axios/axios"].patch(
           "/users/" + getters.user.id,
           data
         );
