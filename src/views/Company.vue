@@ -50,7 +50,7 @@ initDatas();
 async function initDatas() {
     company.value = await getCompany(route.params.id);
     companyName.value = company.value.name;
-    companyObjective.value = company.value.objective;
+    companyObjective.value = company.value.dailyObjective;
 }
 async function onUpdateCompany() {
     if(companyName.value.length < 3) {

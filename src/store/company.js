@@ -83,10 +83,10 @@ const Company = {
         `/companies/${id}`,
         {
           name: name,
-          objective: objective,
+          dailyObjective: objective,
         }
       );
-      
+
       await dispatch("setCompany", response.data);
       return response;
     },
@@ -120,12 +120,13 @@ const Company = {
 
       for(let i = 0; i < companies.length; i++) {
         const company = companies[i];
-        if(company.id === id) {
+
+        if(company.id === newCompany.id) {
           companies[i] = newCompany;
         }
       }
 
-      commit("setCompanies", list);
+      commit("setCompanies", companies);
       return companies;
     },
 
