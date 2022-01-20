@@ -7,7 +7,8 @@
     "mob:open": "npx cap open android",
     "mob:sync": "npx cap sync",
     "mob:run": "npx cap run",
-    "build": "npm run web:build && npm run mob:sync && npm run mob:run",
+    "mob:test": "npm run web:build && npm run mob:sync && npm run mob:run",
+    "mob:prod": "npm run web:build && npm run mob:sync && npm run mob:open",
     "preview": "vite preview"
   },
   "dependencies": {

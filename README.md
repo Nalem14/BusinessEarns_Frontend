@@ -19,11 +19,17 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
+# web development (web dev server with live-reload)
 $ npm run dev
 
-# production mode
-$ npm run build
+# test android (build and run on mobile)
+$ npm run mob:test
+
+# web production (build only web)
+$ npm run web:build
+
+# mobule production mode (build web and open android studio with synced files)
+$ npm run mob:prod
 ```
 
 ## Support
