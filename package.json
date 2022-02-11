@@ -17,7 +17,7 @@
     "@capacitor/cli": "^3.3.4",
     "@capacitor/core": "^3.3.4",
     "@capacitor/dialog": "^1.0.6",
-    "@capacitor/filesystem": "^1.0.7",
+    "@capacitor/filesystem": "^1.1.0",
     "@capacitor/local-notifications": "^1.0.10",
     "@capacitor/storage": "^1.2.3",
     "@capacitor/toast": "^1.0.6",
