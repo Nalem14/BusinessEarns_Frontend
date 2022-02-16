@@ -20,7 +20,7 @@
     "@capacitor/filesystem": "^1.1.0",
     "@capacitor/local-notifications": "^1.0.10",
     "@capacitor/storage": "^1.2.3",
-    "@capacitor/toast": "^1.0.6",
+    "@capacitor/toast": "^1.0.7",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
