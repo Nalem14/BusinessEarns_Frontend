@@ -30,7 +30,7 @@
     "cordova-plugin-screen-orientation": "^3.0.2",
     "jetifier": "^2.0.0",
     "json-2-csv": "^3.16.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.3",
     "vue": "^3.2.25",
     "vue-chart-3": "^3.0.9",
     "vue-router": "^4.0.12",
