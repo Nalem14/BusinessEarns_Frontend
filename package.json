@@ -18,7 +18,7 @@
     "@capacitor/core": "^3.4.0",
     "@capacitor/dialog": "^1.0.7",
     "@capacitor/filesystem": "^1.1.0",
-    "@capacitor/local-notifications": "^1.0.10",
+    "@capacitor/local-notifications": "^1.1.0",
     "@capacitor/storage": "^1.2.3",
     "@capacitor/toast": "^1.0.6",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
