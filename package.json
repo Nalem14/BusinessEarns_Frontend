@@ -35,7 +35,7 @@
     "vue-chart-3": "^3.0.9",
     "vue-router": "^4.0.12",
     "vue3-gravatar": "^3.0.0",
-    "vuex": "^4.0.2"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.1",
