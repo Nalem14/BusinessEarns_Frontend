@@ -24,7 +24,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
-    "@fortawesome/vue-fontawesome": "^3.0.0-5",
+    "@fortawesome/vue-fontawesome": "^3.0.2",
     "axios": "^0.25.0",
     "cordova-plugin-file-opener2": "^3.0.5",
     "cordova-plugin-screen-orientation": "^3.0.2",
