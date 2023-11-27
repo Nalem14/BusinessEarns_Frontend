@@ -27,7 +27,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "axios": "^0.25.0",
     "cordova-plugin-file-opener2": "^3.0.5",
-    "cordova-plugin-screen-orientation": "^3.0.2",
+    "cordova-plugin-screen-orientation": "^3.0.4",
     "jetifier": "^2.0.0",
     "json-2-csv": "^3.16.0",
     "moment": "^2.29.1",
